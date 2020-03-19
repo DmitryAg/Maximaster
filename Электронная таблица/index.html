@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="container">
+		<table id="table">
+		</table>
+		<div class="button1">
+			<div class="button" id="col_plus">+</div>
+			<div class="button" id="col_minus">-</div>
+		</div>
+	</div>
+	<div class="button2">
+			<div class="button" id="row_plus">+</div>
+			<div class="button" id="row_minus">-</div>
+		</div>
+	<script>
+
+		let col_items = [];
+		let row_items = [];
+		let table = document.getElementById('table');
+		function addRow(table,count_cell,count_row){
+			let newRow = table.insertRow(count_row);
+			for (var i = 0; i < count_cell; i++) {
+				newRow.insertCell(i);
+				newRow.cells[i].insertAdjacentHTML('afterbegin','<input  class="cell" type="text">');
+			}
+			count_row++;
+			row_items[0] = count_row;
+			localStorage.setItem('row',JSON.stringify(row_items));
+		}
+
+		function addCol(table,count_cell,count_row){
+			for (var i = 0; i < count_row; i++) {
+				table.rows[i].insertCell(count_cell);
+				table.rows[i].cells[count_cell].insertAdjacentHTML('afterbegin','<input class="cell" type="text">');
+			}
+			count_cell++;
+			col_items[0] = count_cell;
+			localStorage.setItem('col',JSON.stringify(col_items));
+		}
+
+		function delRow(table,count_cell,count_row){
+			let cell= 0;
+			for (var i = 0; i < count_cell; i++) {
+				if (table.rows[count_row-1].cells[i].childNodes[0].value) {
+					if (confirm("Данные ячеек будут удалены!Продолжить?")) {
+						break;
+					}
+					cell++;
+					break;
+				}		
+			}
+			if (cell) {
+				return false;
+			}
+			table.deleteRow(count_row-1);
+			count_row--;
+			row_items[0] = count_row;
+			localStorage.setItem('row',JSON.stringify(row_items));
+		}
+
+		function delCol(table,count_cell,count_row){
+			let cell= 0;
+			for (var i = 0; i < count_row; i++) {
+				if (table.rows[i].cells[count_cell-1].childNodes[0].value) {
+					if (confirm("Данные ячеек будут удалены!Продолжить?")) {
+						break;
+					}
+					cell++;
+					break;
+				}		
+			}
+			if (cell) {
+				return false;
+			}
+			for (var i = 0; i < count_row; i++) {
+				table.rows[i].deleteCell(count_cell-1);
+			}
+			count_cell--;
+			col_items[0] = count_cell;
+			localStorage.setItem('col',JSON.stringify(col_items));
+		}
+
+		let row_plus = document.getElementById('row_plus');
+		row_plus.onclick = function(){
+			let count_cell = table.children[0].children[0].children.length;
+			let count_row = table.children[0].children.length;
+			addRow(table,count_cell,count_row);
+		};
+
+		let col_plus = document.getElementById('col_plus');
+		col_plus.onclick = function(){
+			let count_cell = table.children[0].children[0].children.length;
+			let count_row = table.children[0].children.length;
+			addCol(table,count_cell,count_row);
+		};
+
+		let row_minus = document.getElementById('row_minus');
+		row_minus.onclick = function(){
+			let count_cell = table.children[0].children[0].children.length;
+			let count_row = table.children[0].children.length;
+			if (count_row == 1 || count_cell == 1) {
+				alert('Ошибка!');
+				return false;
+			}
+			else{
+				delRow(table,count_cell,count_row);
+			}
+		}
+		let col_minus = document.getElementById('col_minus');
+		col_minus.onclick = function(){
+			let count_cell = table.children[0].children[0].children.length;
+			let count_row = table.children[0].children.length;
+			if (count_cell == 1 || count_row == 1) {
+				alert('Ошибка!');
+				return false;
+			}
+			else{
+				delCol(table,count_cell,count_row);
+			}
+		}
+		let text = '';
+
+		document.addEventListener('DOMContentLoaded', function(){
+			if (localStorage.getItem("col") !== null || localStorage.getItem("row") !== null) {
+				for (var i = 0; i < JSON.parse(localStorage.getItem("row")); i++) {
+					text+='<tr>';
+					for (var j = 0; j < JSON.parse(localStorage.getItem("col")); j++) {
+						text+='<td><input id="' + (i+1) +'_' + (j+1) + '"" class="cell" type="text"></td>';
+					}
+					text+='</tr>';	
+				}
+			}else{
+				text+='<tr><td><input id="1_1" class="cell" type="text"></td><td><input id="1_2" class="cell" type="text"></td><td><input id="1_3" class="cell" type="text"></td><td><input id="1_4" class="cell" type="text"></td><td><input id="1_5" class="cell" type="text"></td></tr><tr><td><input id="2_1" class="cell" type="text"></td><td><input id="2_2" class="cell" type="text"></td><td><input id="2_3" class="cell" type="text"></td><td><input id="2_4" class="cell" type="text"></td><td><input id="2_5" class="cell" type="text"></td></tr><tr><td><input id="3_1" class="cell" type="text"></td><td><input id="3_2" class="cell1" type="text"></td><td><input id="3_3" class="cell" type="text"></td><td><input id="3_4" class="cell" type="text"></td><td><input id="3_5" class="cell" type="text"></td></tr>';
+			col_items[0] = 5;
+			localStorage.setItem('col',JSON.stringify(col_items));
+			row_items[0] = 3;
+			localStorage.setItem('row',JSON.stringify(row_items));
+
+			}
+			table.innerHTML = text;
+			let ids = [];
+			let l = 0;
+			for (let i = 0; i < JSON.parse(localStorage.getItem("row")); i++) {
+				for (let j = 0; j < JSON.parse(localStorage.getItem("col")); j++) {
+				ids[l] = ''+(i+1)+'_'+(j+1)+'';
+				l++;
+				}
+			}
+			for(let id of ids){
+				let input = document.getElementById(id);
+				input.value = localStorage.getItem(id, input.value);
+				 (function(id, input) {
+			      input.addEventListener("change", function() {
+			        localStorage.setItem(id, input.value);
+			      });
+			    })(id, input);
+			}
+		});
+	</script>
+		
+</body>
+</html>

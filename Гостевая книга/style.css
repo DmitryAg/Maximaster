@@ -1,0 +1,51 @@
+.messages{
+	width: 500px;
+	margin: 0 auto;
+	padding-bottom: 40px;
+}
+.message__item{
+	border:1px solid grey;
+	padding: 5px;
+	margin-top: 10px;
+}
+.message__item:nth-child(1){
+	margin: 0;
+}
+.message__top{
+	display: flex;
+	justify-content: space-between;
+}
+.message__text{
+	margin: 0;
+	margin-top: 5px;
+}
+.form{
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	border-top:3px solid #d5d2d2;
+}
+.form__name{
+	width: 250px;
+	height: 30px;
+	margin-top: 20px;
+}
+.form__message{
+	width: 300px;
+	height: 100px;
+	margin-top: 10px;
+	resize:none;
+}
+.err{
+	color:red;
+	text-align: center;
+}
+.form__submit{
+	margin-top: 10px;
+	width: 100px;
+	padding: 10px;
+}
+/*input{
+	margin: 0 auto;
+	display: block;
+}*/

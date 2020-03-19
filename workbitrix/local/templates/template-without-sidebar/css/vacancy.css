@@ -1,0 +1,33 @@
+.vacancy{
+	width: 790px;
+}
+.vacancy-container__item{
+	margin-top: 10px;
+}
+.vacancy-container__item:nth-child(1){
+	margin-top: 0;
+}
+.vacancy-container__item{
+	padding: 15px;
+	display: flex;
+	border:1px solid #d5d2d2;
+	border-radius: 4px;
+}
+.vacancy-container__info{
+	margin-left: 10px;
+}
+.vacancy-container__img{
+	width:200px;
+	height: 150px;
+}
+.vacancy-container__link{
+	text-decoration: none;
+	color: black;
+}
+.vacancy-container__work-position{
+	padding: 5px 10px;
+	background: linear-gradient(180deg,#92d774,#7ab461);
+	color:white;
+	display: inline;
+	font-weight: bold;
+}

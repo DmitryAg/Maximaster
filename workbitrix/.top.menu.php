@@ -1,0 +1,53 @@
+<?
+$aMenuLinks = Array(
+	Array(
+		"Главная", 
+		"/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Вакансии", 
+		"vakansii/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Импорт", 
+		"import/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Сервис", 
+		"servis/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Категории", 
+		"categories/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Продукт", 
+		"product/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Веб-форма", 
+		"form/", 
+		Array(), 
+		Array(), 
+		"" 
+	)
+);
+?>

@@ -1,0 +1,36 @@
+input{
+	width:200px;
+}
+.input{
+	display: flex;
+}
+.container{
+	margin: 100px auto;
+	width: 300px;
+	display: flex;
+	flex-direction: column;
+	height: 80px;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 30px;
+	border-bottom: 1px solid grey;
+}
+#color{
+	padding: 3px 30px;
+	border:1px solid black;
+	border-radius: 10px;
+	text-align: center;
+	cursor:pointer;
+}
+#color:hover{
+	background-color: green;
+	color:white;
+}
+#block{
+	height: 100px;
+	width:100px;
+	background-color: white;
+	margin: 0 auto;
+	border:1px solid black;
+	border-radius: 10px;
+}

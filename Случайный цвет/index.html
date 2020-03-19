@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="container">
+			<div class="input">Ширина:<input id="width" type="text" placeholder="100"></div>
+			<div id="input">Высота:<input id="height" type="text" placeholder="100"></div>
+		<div id="color">Случайный цвет</div>
+	</div>
+	<div id="block">
+	</div>
+	<script>
+		let width = document.getElementById('width');
+		let height = document.getElementById('height');
+		let color = document.getElementById('color');
+		width.oninput = function() {
+			document.getElementById('block').style.width = width.value + 'px';
+		}
+		height.oninput = function() {
+			document.getElementById('block').style.height = height.value + 'px';
+		}
+		color.onclick = function(){
+			document.getElementById('block').style.backgroundColor = 'rgb('+Random(0,255)+',' + Random(0,255) + ',' + Random(0,255) +')';
+		}
+		function Random(min,max){
+			return Math.floor(Math.random()*(max - min +1)) + min;
+		}
+
+		
+	</script>
+</body>
+</html>

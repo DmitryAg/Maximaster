@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="https://api-maps.yandex.ru/2.1/?apikey=e95d404a-3a2a-41a9-81b7-4c7f354d16f1&lang=ru_RU" type="text/javascript">
+    </script>
+    <script>
+    	let check = 0;
+		ymaps.ready(init);
+		function init(){
+			let myMap = new ymaps.Map("map", {
+			center: [54.19, 37.62],
+            zoom: 11
+			}, {
+				balloonMaxWidth: 200,
+				searchControlProvider:'yandex#search'
+			});
+			 myMap.events.add('click', function (e) {
+        if (!myMap.balloon.isOpen()) {
+           var coords = e.get('coords');
+            myMap.geoObjects.add(new ymaps.Placemark([coords[0].toPrecision(6),coords[1].toPrecision(6)], {}, {
+   				 preset: 'islands#redIcon'
+					}));
+            myMap.balloon.open(coords, {
+                contentHeader:'Событие!',
+                contentBody:
+                    '<p>Координаты щелчка: ' + [
+                    coords[0].toPrecision(6),
+                    coords[1].toPrecision(6)
+                    ].join(', ') + '</p>',
+                contentFooter:'<sup>Щелкните еще раз</sup>'
+            });
+            check = true;
+        }
+        else {
+            myMap.balloon.close();
+          check = false;
+        }
+    });
+    myMap.events.add('contextmenu', function (e) {
+        myMap.hint.open(e.get('coords'), 'Кто-то щелкнул правой кнопкой');
+    });
+    myMap.events.add('balloonopen', function (e) {
+        myMap.hint.close();
+    });
+		}
+	
+	</script>
+</head>
+<body>
+	<div class="form-container">
+		<div class="form">
+			<input id="name" name="name" type="text" placeholder="ФИО*">
+			<input id="phone" name="phone" type="text" placeholder="Телефон*">
+			<input id="email" name="email" type="text" placeholder="Email">
+			<div id="map"></div>
+			<textarea name="comment" id="comment" placeholder="Комментарий к заказу (макс. 500 символов)"></textarea>
+			<div id="button">Отправить</div>
+		</div>
+		<div id="message">
+			
+		</div>
+	</div>
+	<script>
+	let button = document.getElementById('button');
+	let name = document.getElementById('name');
+	let phone = document.getElementById('phone');
+	let email = document.getElementById('email');
+	let comment = document.getElementById('comment');
+	button.onclick = function(){
+		let string = '';
+			if (name.value.length == 0 || name.value.length == 0)
+			 {
+				string = `<p class="error">Не заполнено поле ФИО!</p>`;	
+			}
+			if (phone.value.length == 0 || phone.value.length == '') 
+			{
+				string+=`<p class="error">Не заполнено поле телефон!</p>`;
+			}
+			else{
+				if (phone.value.match('[a-z]+')) 
+				{
+					string+=`<p class="error">Некорректный номер телефона!</p>`;
+				}
+			}
+			if (!email.value.includes('@')) 
+			{
+				string+=`<p class="error">Некорректный Email!</p>`;
+			}
+			if (!check) {
+				string+=`<p class="error">Не отмечен адрес доставки!</p>`;
+			}
+			if (comment.value.length > 500) 
+			{
+				string+=`<p class="error">Комментарий к заказу слишком большой!</p>`;
+			}
+			if (!string==0) 
+			{
+				document.getElementById('message').innerHTML = string;
+			}
+			else{
+				string = `<p class="error">Сообщениe отправлено!</p>`;
+				document.getElementById('message').innerHTML = string;
+			}
+		}
+
+	</script>
+</body>
+</html>

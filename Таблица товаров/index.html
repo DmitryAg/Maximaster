@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="container">
+		<div class="input">
+			Цена от:
+			<input id= "min" type="text">
+			до: <input id = "max" type="text">
+			<div id="update">Обновить</div>
+		</div>
+		<table id="table">
+			<tr>
+				<th>ID</th><th>Название</th><th>Количество</th><th>Цена за единицу</th><th>Сумма</th>
+			</tr>
+		</table>
+	</div>
+	<script>
+		async function getTable(min,max)
+		{
+			 mass = '';
+			let response =  await fetch('http://exercise.develop.maximaster.ru/service/products/');
+			if (response.ok) 
+			{
+				let json = await response.json();
+				if (min == 0 && max == 0) 
+				{
+					mass = '<tr><th>ID</th><th>Название</th><th>Количество</th><th>Цена за единицу</th><th>Сумма</th></tr>';
+					for(var key in json)
+					{
+					mass += `<tr>
+								<td>`+ key +`</td>
+								 <td>`+ json[key].name +`</td>
+								 <td>`+ json[key].quantity +`</td>
+								 <td>`+ json[key].price +`</td>
+								 <td>`+ json[key].quantity*json[key].price +`</td>
+							</tr>`
+					}
+				}
+				else
+				{
+					for(var key in json)
+						{
+							if (json[key].price >= min && json[key].price <= max )
+							{
+								mass += `<tr>
+									<td>`+ key +`</td>
+									 <td>`+ json[key].name +`</td>
+									 <td>`+ json[key].quantity +`</td>
+									 <td>`+ json[key].price +`</td>
+									 <td>`+ json[key].quantity*json[key].price +`</td>
+								</tr>`
+							}
+						}
+					if (mass == '') 
+					{
+						mass="<p>Нет данных, попадающих под условие фильтра!</p>";
+						document.getElementById('table').innerHTML = mass;
+						return false;
+					}
+				}
+				//document.getElementById('table').insertAdjacentHTML('beforeend',mass);
+				document.getElementById('table').innerHTML = mass;
+			}
+			else{
+				alert('Ошибка!');
+			}
+		}
+		document.getElementById('update').onclick = function(){
+			let min = document.getElementById('min').value;
+			let max = document.getElementById('max').value;
+			if (min.match('[a-z]+') || max.match('[a-z]+')) {
+				alert('Неверно введены данные!');
+				document.getElementById('min').value = '';
+				document.getElementById('max').value = '';
+			}
+			else{
+				min = Number(min);
+				max = Number(max);
+				getTable(min,max);
+			}
+			
+		}
+	
+	</script>
+</body>
+</html>
